@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useState, useRef, useEffect } from 'react';
+import { FaGraduationCap } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -38,8 +39,11 @@ const Navbar = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl font-extrabold text-primary tracking-wide hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-3 text-2xl font-extrabold text-primary tracking-wide hover:scale-105 transition-transform duration-200"
         >
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <FaGraduationCap className="text-2xl text-primary" />
+          </div>
           Learning Platform
         </Link>
 
