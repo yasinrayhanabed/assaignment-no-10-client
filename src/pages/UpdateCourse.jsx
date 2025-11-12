@@ -111,134 +111,133 @@ const UpdateCourse = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-20">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Update Course</h1>
-        
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <form onSubmit={handleSubmit}>
-              <div className="form-control w-full mb-4">
-                <label className="label">
-                  <span className="label-text">Title</span>
-                </label>
+    <div className="bg-gradient-to-br from-[#EFF6FF] via-[#E0F2FE] to-[#DBEAFE] min-h-screen flex items-center justify-center pt-20 pb-10">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-2xl p-8">
+          <h1 className="text-4xl font-extrabold text-center text-[#1E3A8A] mb-8">
+            Update Course
+          </h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Course Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            {/* Image URL */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Image URL</label>
+              <input
+                type="url"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                placeholder="https://example.com/image.jpg"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            {/* Price & Duration */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">Price ($)</label>
                 <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
+                  type="number"
+                  name="price"
+                  value={formData.price}
                   onChange={handleChange}
-                  className="input input-bordered w-full"
+                  min="0"
+                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                   required
                 />
               </div>
-
-              <div className="form-control w-full mb-4">
-                <label className="label">
-                  <span className="label-text">Image URL</span>
-                </label>
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">Duration (weeks)</label>
                 <input
-                  type="url"
-                  name="image"
-                  value={formData.image}
+                  type="number"
+                  name="duration"
+                  value={formData.duration}
                   onChange={handleChange}
-                  className="input input-bordered w-full"
-                  placeholder="https://example.com/image.jpg"
+                  min="1"
+                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                   required
                 />
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Price ($)</span>
-                  </label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    className="input input-bordered w-full"
-                    min="0"
-                    required
-                  />
-                </div>
+            {/* Category */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Category</label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                required
+              >
+                <option value="">Select a Category</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Duration (weeks)</span>
-                  </label>
-                  <input
-                    type="number"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleChange}
-                    placeholder="8"
-                    className="input input-bordered w-full"
-                    min="1"
-                    required
-                  />
-                </div>
-              </div>
+            {/* Description */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows="4"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
+                required
+              ></textarea>
+            </div>
 
-              <div className="form-control w-full mb-4">
-                <label className="label">
-                  <span className="label-text">Category</span>
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
+            {/* Featured Checkbox */}
+            <div className="flex items-center justify-between bg-blue-50 p-4 rounded-xl border border-blue-200">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="isFeatured"
+                  checked={formData.isFeatured}
                   onChange={handleChange}
-                  className="select select-bordered w-full"
-                  required
-                >
-                  <option value="">Select Category</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
+                  className="checkbox checkbox-primary"
+                />
+                <span className="text-gray-700 font-medium">Mark as Featured Course</span>
+              </label>
+            </div>
 
-              <div className="form-control w-full mb-4">
-                <label className="label">
-                  <span className="label-text">Description</span>
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="textarea textarea-bordered h-24"
-                  required
-                ></textarea>
-              </div>
-
-              <div className="form-control mb-6">
-                <label className="label cursor-pointer">
-                  <span className="label-text">Featured Course</span>
-                  <input
-                    type="checkbox"
-                    name="isFeatured"
-                    checked={formData.isFeatured}
-                    onChange={handleChange}
-                    className="checkbox checkbox-primary"
-                  />
-                </label>
-              </div>
-
-              <div className="flex gap-4">
-                <button 
-                  type="button"
-                  onClick={() => navigate('/my-courses')}
-                  className="btn btn-outline flex-1"
-                  disabled={updating}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary flex-1" disabled={updating}>
-                  {updating ? <LoadingSpinner size="text-lg" /> : 'Save Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* Submit Buttons */}
+            <div className="flex gap-4">
+              <button 
+                type="button"
+                onClick={() => navigate('/my-courses')}
+                className="btn flex-1 bg-gray-500 hover:bg-gray-600 text-white border-none rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105"
+                disabled={updating}
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="btn flex-1 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1E40AF] text-white border-none rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105" 
+                disabled={updating}
+              >
+                {updating ? <LoadingSpinner size="text-lg" /> : 'Update Course'}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
