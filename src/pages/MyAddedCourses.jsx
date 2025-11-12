@@ -42,7 +42,11 @@ const MyAddedCourses = () => {
   };
 
   const openDeleteModal = (courseId) => setDeleteModal({ isOpen: true, courseId });
-  const closeDeleteModal = () => setDeleteModal({ isOpen: false, courseId: null });
+  const closeDeleteModal = () => {
+    if (!deleting) {
+      setDeleteModal({ isOpen: false, courseId: null });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -136,22 +140,57 @@ const MyAddedCourses = () => {
 
       {/* Delete Confirmation Modal */}
       {deleteModal.isOpen && (
-        <div className="modal modal-open">
-          <div className="modal-box rounded-lg p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-3">Confirm Delete</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this course? This action cannot be undone.
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+          onClick={closeDeleteModal}
+        >
+          <div 
+            className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Warning Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+            </div>
+            
+            {/* Title */}
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-4">Delete Course?</h3>
+            
+            {/* Message */}
+            <p className="text-gray-600 text-center mb-8 leading-relaxed">
+              Are you sure you want to delete this course? This action cannot be undone and all enrolled students will lose access.
             </p>
-            <div className="modal-action flex justify-end gap-2">
-              <button onClick={closeDeleteModal} className="btn btn-outline">
+            
+            {/* Buttons */}
+            <div className="flex gap-4">
+              <button 
+                onClick={closeDeleteModal} 
+                className="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-colors duration-200"
+              >
                 Cancel
               </button>
               <button
                 onClick={() => handleDelete(deleteModal.courseId)}
-                className="btn btn-error"
                 disabled={deleting}
+                className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                {deleting ? <LoadingSpinner size="text-sm" /> : 'Delete'}
+                {deleting ? (
+                  <>
+                    <LoadingSpinner size="text-sm" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Delete
+                  </>
+                )}
               </button>
             </div>
           </div>

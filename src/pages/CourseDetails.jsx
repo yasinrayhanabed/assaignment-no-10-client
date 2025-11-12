@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
@@ -9,6 +9,7 @@ const CourseDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [enrolling, setEnrolling] = useState(false);
 
   const popularCourses = [
@@ -113,6 +114,7 @@ const CourseDetails = () => {
 
       if (response.ok) {
         toast.success('🎉 Enrolled successfully!');
+        queryClient.invalidateQueries(['enrollment', id, user.email]);
       } else {
         toast.error(data.error || 'Enrollment failed');
       }
