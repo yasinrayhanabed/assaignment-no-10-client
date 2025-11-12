@@ -91,7 +91,7 @@ const AddCourse = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
             </div>
@@ -105,7 +105,7 @@ const AddCourse = () => {
                 value={formData.image}
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
-                className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
             </div>
@@ -120,7 +120,7 @@ const AddCourse = () => {
                   value={formData.price}
                   onChange={handleChange}
                   min="0"
-                  className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                   required
                 />
               </div>
@@ -132,7 +132,7 @@ const AddCourse = () => {
                   value={formData.duration}
                   onChange={handleChange}
                   min="1"
-                  className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                   required
                 />
               </div>
@@ -145,7 +145,7 @@ const AddCourse = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="select select-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               >
                 <option value="">Select a Category</option>
@@ -165,7 +165,7 @@ const AddCourse = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="4"
-                className="textarea textarea-bordered w-full rounded-xl focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
                 required
               ></textarea>
             </div>

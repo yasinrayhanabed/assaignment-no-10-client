@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
 import { FaUserTie, FaClock, FaDollarSign, FaStar } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Home = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      offset: 100
+    });
+  }, []);
+
   const { data: featuredCourses = [], isLoading } = useQuery({
     queryKey: ['featuredCourses'],
     queryFn: async () => {
@@ -64,25 +77,53 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="bg-[#3B82F6] text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6] to-[#2563EB] opacity-90"></div>
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-[#3B82F6] to-[#2563EB] opacity-90"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          transition={{ duration: 1 }}
+        ></motion.div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fade-up">Empower Your Learning Journey</h1>
-          <p className="text-xl md:text-2xl mb-10 text-white/90 font-medium animate-fade-up animation-delay-200">
-            Discover world-class courses from expert instructors
-          </p>
-          <Link 
-            to="/courses" 
-            className="btn bg-[#10B981] rounded-xl hover:bg-[#059669] text-white border-none px-10 py-4 text-lg font-medium transition-transform duration-300 hover:scale-105 animate-fade-up animation-delay-400"
+          <motion.h1 
+            className="text-5xl md:text-6xl font-extrabold mb-6"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Get Started
-          </Link>
+            Empower Your Learning Journey
+          </motion.h1>
+          <motion.p 
+            className="text-xl md:text-2xl mb-10 text-white/90 font-medium"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Discover world-class courses from expert instructors
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <Link 
+              to="/courses" 
+              className="btn bg-[#10B981] rounded-xl hover:bg-[#059669] text-white border-none px-10 py-4 text-lg font-medium transition-transform duration-300 hover:scale-105"
+            >
+              Get Started
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* Popular Courses Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]">Popular Courses</h2>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]"
+            data-aos="fade-up"
+          >
+            Popular Courses
+          </motion.h2>
 
           {isLoading ? (
             <div className="flex justify-center">
@@ -91,10 +132,13 @@ const Home = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {(featuredCourses.length > 0 ? featuredCourses.slice(0, 3) : popularCourses).map((course, index) => (
-                <div 
+                <motion.div 
                   key={course._id} 
-                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 animate-fade-up border border-gray-100"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 border border-gray-100"
+                  data-aos="fade-up"
+                  data-aos-delay={index * 100}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
                 >
                   {/* Course Image with Overlay */}
                   <div className="relative overflow-hidden">
@@ -183,42 +227,87 @@ const Home = () => {
                   
                   {/* Hover Effect Border */}
                   <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#3B82F6] rounded-2xl transition-all duration-300 pointer-events-none"></div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
 
-          <div className="text-center mt-12">
+          <motion.div 
+            className="text-center mt-12"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <Link 
               to="/courses" 
               className="btn bg-transparent rounded-xl border-2 border-[#3B82F6] text-[#3B82F6] hover:bg-[#3B82F6] hover:text-white transition-all duration-300 px-8 py-3"
             >
               View All Courses
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
       <section className="py-20 bg-[#F8FAFC]">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]">Why Choose Us</h2>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]"
+            data-aos="fade-up"
+          >
+            Why Choose Us
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow animate-fade-up">
-              <FaUserTie className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+            <motion.div 
+              className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow"
+              data-aos="zoom-in"
+              data-aos-delay="100"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <FaUserTie className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+              </motion.div>
               <h3 className="text-xl font-bold mb-3 text-[#1F2937]">Expert Mentors</h3>
               <p className="text-gray-600">Learn from industry professionals with years of experience</p>
-            </div>
-            <div className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow animate-fade-up animation-delay-200">
-              <FaClock className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+            </motion.div>
+            <motion.div 
+              className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <FaClock className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+              </motion.div>
               <h3 className="text-xl font-bold mb-3 text-[#1F2937]">Flexible Schedule</h3>
               <p className="text-gray-600">Study at your own pace with 24/7 access to course materials</p>
-            </div>
-            <div className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow animate-fade-up animation-delay-400">
-              <FaDollarSign className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+            </motion.div>
+            <motion.div 
+              className="text-center bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow"
+              data-aos="zoom-in"
+              data-aos-delay="300"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <FaDollarSign className="text-6xl text-[#F59E0B] mx-auto mb-5" />
+              </motion.div>
               <h3 className="text-xl font-bold mb-3 text-[#1F2937]">Affordable Learning</h3>
               <p className="text-gray-600">Quality education at competitive prices with payment plans</p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -226,26 +315,45 @@ const Home = () => {
       {/* Top Instructors Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]">Top Instructors</h2>
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1F2937]"
+            data-aos="fade-up"
+          >
+            Top Instructors
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {instructors.map((instructor, index) => (
-              <div 
+              <motion.div 
                 key={instructor.id} 
-                className="card bg-white shadow-md p-5 hover:scale-105 hover:shadow-xl transition-all duration-300 rounded-xl animate-fade-up"
-                style={{ animationDelay: `${index * 150}ms` }}
+                className="card bg-white shadow-md p-5 hover:shadow-xl transition-all duration-300 rounded-xl"
+                data-aos="flip-left"
+                data-aos-delay={index * 100}
+                whileHover={{ scale: 1.05, rotateY: 5 }}
+                transition={{ duration: 0.3 }}
               >
                 <figure className="px-10 pt-10">
-                  <img src={instructor.image} alt={instructor.name} className="rounded-full w-32 h-32 object-cover transition-transform duration-500 hover:scale-110" />
+                  <motion.img 
+                    src={instructor.image} 
+                    alt={instructor.name} 
+                    className="rounded-full w-32 h-32 object-cover"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </figure>
                 <div className="card-body items-center text-center pb-10">
                   <h3 className="card-title font-bold text-[#1F2937]">{instructor.name}</h3>
                   <p className="text-gray-600">{instructor.expertise}</p>
-                  <div className="flex items-center mt-3">
+                  <motion.div 
+                    className="flex items-center mt-3"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
                     <FaStar className="text-[#F59E0B] mr-1" />
                     <span className="font-medium">{instructor.rating}</span>
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
