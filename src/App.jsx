@@ -1,35 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
+import MainLayout from './layout/MainLayout';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './pages/Home';
+import Courses from './pages/Courses';
+import CourseDetails from './pages/CourseDetails';
+import AddCourse from './pages/AddCourse';
+import MyAddedCourses from './pages/MyAddedCourses';
+import UpdateCourse from './pages/UpdateCourse';
+import MyEnrolledCourses from './pages/MyEnrolledCourses';
+import About from './pages/About';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NotFound from './pages/NotFound';
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:id" element={<CourseDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Private Routes */}
+            <Route path="/add-course" element={<PrivateRoute><AddCourse /></PrivateRoute>} />
+            <Route path="/my-courses" element={<PrivateRoute><MyAddedCourses /></PrivateRoute>} />
+            <Route path="/update-course/:id" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} />
+            <Route path="/my-enrolled-courses" element={<PrivateRoute><MyEnrolledCourses /></PrivateRoute>} />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </MainLayout>
+        <Toaster 
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#F8FAFC',
+              color: '#1E293B',
+              border: '1px solid #3B82F6',
+            },
+            success: {
+              iconTheme: {
+                primary: '#10B981',
+                secondary: '#F8FAFC',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#EF4444',
+                secondary: '#F8FAFC',
+              },
+            },
+          }}
+        />
+      </Router>
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;
