@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { updateProfile } from 'firebase/auth';
+import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
@@ -10,6 +11,28 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     displayName: user?.displayName || '',
     photoURL: user?.photoURL || ''
+  });
+
+  // Fetch created courses count
+  const { data: createdCourses = [] } = useQuery({
+    queryKey: ['myCourses', user?.email],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:5000/courses/instructor/${user.email}`);
+      if (!response.ok) return [];
+      return response.json();
+    },
+    enabled: !!user?.email
+  });
+
+  // Fetch enrolled courses count
+  const { data: enrolledCourses = [] } = useQuery({
+    queryKey: ['enrolledCourses', user?.email],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:5000/enroll/${user.email}`);
+      if (!response.ok) return [];
+      return response.json();
+    },
+    enabled: !!user?.email
   });
 
   const handleInputChange = (e) => {
@@ -156,15 +179,15 @@ const Profile = () => {
           {/* Account Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md text-center">
-              <div className="text-3xl font-bold text-[#3B82F6] mb-2">0</div>
+              <div className="text-3xl font-bold text-[#3B82F6] mb-2">{enrolledCourses.length}</div>
               <div className="text-gray-600">Courses Enrolled</div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md text-center">
-              <div className="text-3xl font-bold text-[#10B981] mb-2">0</div>
+              <div className="text-3xl font-bold text-[#10B981] mb-2">{createdCourses.length}</div>
               <div className="text-gray-600">Courses Created</div>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md text-center">
-              <div className="text-3xl font-bold text-[#F59E0B] mb-2">0</div>
+              <div className="text-3xl font-bold text-[#F59E0B] mb-2">{enrolledCourses.length}</div>
               <div className="text-gray-600">Certificates Earned</div>
             </div>
           </div>

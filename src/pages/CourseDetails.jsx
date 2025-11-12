@@ -71,6 +71,19 @@ const CourseDetails = () => {
     },
   });
 
+  // Check if user is already enrolled
+  const { data: isEnrolled = false } = useQuery({
+    queryKey: ['enrollment', id, user?.email],
+    queryFn: async () => {
+      if (!user?.email) return false;
+      const response = await fetch(`http://localhost:5000/check-enrollment/${id}/${user.email}`);
+      if (!response.ok) return false;
+      const data = await response.json();
+      return data.enrolled;
+    },
+    enabled: !!user?.email && !!id
+  });
+
   const course = apiCourse;
 
   const handleEnroll = async () => {
@@ -203,10 +216,14 @@ const CourseDetails = () => {
           <div className="text-center">
             <button
               onClick={handleEnroll}
-              disabled={enrolling}
-              className="btn bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-none text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-105"
+              disabled={enrolling || isEnrolled}
+              className={`btn text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition-all duration-300 ${
+                isEnrolled 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-none hover:scale-105'
+              }`}
             >
-              {enrolling ? <LoadingSpinner size="text-lg" /> : 'Enroll Now'}
+              {enrolling ? <LoadingSpinner size="text-lg" /> : isEnrolled ? 'Enrolled' : 'Enroll Now'}
             </button>
           </div>
         </div>
