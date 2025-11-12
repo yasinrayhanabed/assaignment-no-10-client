@@ -31,7 +31,7 @@ const Home = () => {
       _id: '1',
       title: 'Complete React Development Course',
       description: 'Master React from basics to advanced concepts. Build real-world projects and learn modern React patterns.',
-      image: 'https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=React+Course',
+      image: 'https://i.ibb.co.com/SXzrFH67/react-js-inscription-against-laptop-and-code-background-learn-react-programming-language-computer-co.jpg',
       price: 89,
       duration: 12,
       instructor: { name: 'John Smith' },
@@ -43,7 +43,7 @@ const Home = () => {
       _id: '2', 
       title: 'Python for Data Science',
       description: 'Learn Python programming for data analysis, visualization, and machine learning with hands-on projects.',
-      image: 'https://via.placeholder.com/400x250/10B981/FFFFFF?text=Python+Course',
+      image: 'https://i.ibb.co.com/v6qd0KQJ/pythom-data-science.webp',
       price: 75,
       duration: 10,
       instructor: { name: 'Sarah Johnson' },
@@ -55,7 +55,7 @@ const Home = () => {
       _id: '3',
       title: 'UI/UX Design Masterclass', 
       description: 'Create stunning user interfaces and experiences. Learn design principles, prototyping, and user research.',
-      image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Design+Course',
+      image: 'https://i.ibb.co.com/vvjB7KDW/images-q-tbn-ANd9-Gc-Rhf-OQKOixn45-CBe-Tn-Xq-PDJCDFd-ADC1-Tx-Flfg-s.jpg',
       price: 95,
       duration: 8,
       instructor: { name: 'Mike Wilson' },
@@ -66,10 +66,10 @@ const Home = () => {
   ];
 
   const instructors = [
-    { id: 1, name: "John Doe", expertise: "React Developer", rating: 4.9, image: "https://via.placeholder.com/150x150/3B82F6/FFFFFF?text=JD" },
-    { id: 2, name: "Jane Smith", expertise: "Python Expert", rating: 4.8, image: "https://via.placeholder.com/150x150/10B981/FFFFFF?text=JS" },
-    { id: 3, name: "Mike Johnson", expertise: "UI/UX Designer", rating: 4.7, image: "https://via.placeholder.com/150x150/F59E0B/FFFFFF?text=MJ" },
-    { id: 4, name: "Sarah Wilson", expertise: "Data Scientist", rating: 4.9, image: "https://via.placeholder.com/150x150/EF4444/FFFFFF?text=SW" }
+    { id: 1, name: "John Doe", expertise: "React Developer", rating: 4.9, image: "https://i.ibb.co.com/jPz5Pxkn/speaker3-min.jpg" },
+    { id: 2, name: "Jane Smith", expertise: "Python Expert", rating: 4.8, image: "https://i.ibb.co.com/YqMPVYb/images-q-tbn-ANd9-Gc-RMYR0-TAT4x-CZgg-7cv-Ds2g-H02s-MGHAIb-FDYQ-s.jpg" },
+    { id: 3, name: "Mike Johnson", expertise: "UI/UX Designer", rating: 4.7, image: "https://i.ibb.co.com/V0nGpT4g/images-q-tbn-ANd9-Gc-Tvv-L76q808x9p-Jl7tnl-A77tqj-2ei0ri-Y5-KQ-s.jpg" },
+    { id: 4, name: "Sarah Wilson", expertise: "Data Scientist", rating: 4.9, image: "https://i.ibb.co.com/MDVJXpbz/young-people-eating-berries-street-23-2150163636.jpg" }
   ];
 
   return (
