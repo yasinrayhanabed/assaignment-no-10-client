@@ -1,61 +1,49 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
 
 const UpdateCourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
-    imageURL: '',
+    image: '',
     price: '',
     duration: '',
     category: '',
     description: '',
-    featured: false
+    isFeatured: false
+  });
+  const [updating, setUpdating] = useState(false);
+
+  const categories = ['Web Development', 'Backend Development', 'Design', 'Mobile Development', 'Data Science', 'Marketing'];
+
+  const { data: course, isLoading, error } = useQuery({
+    queryKey: ['course', id],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:5000/courses/${id}`);
+      if (!response.ok) {
+        throw new Error('Course not found');
+      }
+      return response.json();
+    }
   });
 
-  const categories = ['Web Development', 'Backend', 'Design', 'Mobile', 'Data Science'];
-
-  // Mock course data - replace with actual API call
-  const mockCourse = {
-    _id: '1',
-    title: 'React Fundamentals',
-    imageURL: 'https://via.placeholder.com/400x300',
-    price: 99,
-    duration: '8 weeks',
-    category: 'Web Development',
-    description: 'Learn React from basics to advanced concepts',
-    featured: true
-  };
-
   useEffect(() => {
-    fetchCourse();
-  }, [id]);
-
-  const fetchCourse = async () => {
-    try {
-      // Simulate API call - GET /courses/:id
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Pre-fill form with existing course data
+    if (course) {
       setFormData({
-        title: mockCourse.title,
-        imageURL: mockCourse.imageURL,
-        price: mockCourse.price.toString(),
-        duration: mockCourse.duration,
-        category: mockCourse.category,
-        description: mockCourse.description,
-        featured: mockCourse.featured
+        title: course.title || '',
+        image: course.image || '',
+        price: course.price?.toString() || '',
+        duration: course.duration?.toString() || '',
+        category: course.category || '',
+        description: course.description || '',
+        isFeatured: course.isFeatured || false
       });
-    } catch (error) {
-      toast.error('Failed to fetch course details');
-      navigate('/my-courses');
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [course]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -67,36 +55,65 @@ const UpdateCourse = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdating(true);
+    
     try {
       const courseData = {
         ...formData,
-        price: parseFloat(formData.price)
+        price: parseFloat(formData.price),
+        duration: parseInt(formData.duration)
       };
 
-      // Simulate API call - PUT /courses/:id
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch(`http://localhost:5000/update-course/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(courseData)
+      });
+
+      const data = await response.json();
       
-      toast.success('Course Updated Successfully');
-      navigate('/my-courses');
+      if (response.ok) {
+        toast.success('Course updated successfully!');
+        navigate('/my-courses');
+      } else {
+        toast.error(data.error || 'Failed to update course');
+      }
     } catch (error) {
       toast.error('Failed to update course. Please try again.');
+    } finally {
+      setUpdating(false);
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pt-20">
         <div className="flex justify-center items-center h-64">
-          <span className="loading loading-spinner loading-lg"></span>
+          <LoadingSpinner size="text-6xl" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !course) {
+    return (
+      <div className="container mx-auto px-4 py-8 pt-20">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Course not found</h1>
+          <button onClick={() => navigate('/my-courses')} className="btn btn-primary">
+            Back to My Courses
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pt-20">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Update Course</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Update Course</h1>
         
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
@@ -121,10 +138,11 @@ const UpdateCourse = () => {
                 </label>
                 <input
                   type="url"
-                  name="imageURL"
-                  value={formData.imageURL}
+                  name="image"
+                  value={formData.image}
                   onChange={handleChange}
                   className="input input-bordered w-full"
+                  placeholder="https://example.com/image.jpg"
                   required
                 />
               </div>
@@ -147,15 +165,16 @@ const UpdateCourse = () => {
 
                 <div className="form-control w-full">
                   <label className="label">
-                    <span className="label-text">Duration</span>
+                    <span className="label-text">Duration (weeks)</span>
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="duration"
                     value={formData.duration}
                     onChange={handleChange}
-                    placeholder="e.g., 8 weeks"
+                    placeholder="8"
                     className="input input-bordered w-full"
+                    min="1"
                     required
                   />
                 </div>
@@ -197,10 +216,10 @@ const UpdateCourse = () => {
                   <span className="label-text">Featured Course</span>
                   <input
                     type="checkbox"
-                    name="featured"
-                    checked={formData.featured}
+                    name="isFeatured"
+                    checked={formData.isFeatured}
                     onChange={handleChange}
-                    className="checkbox"
+                    className="checkbox checkbox-primary"
                   />
                 </label>
               </div>
@@ -210,11 +229,12 @@ const UpdateCourse = () => {
                   type="button"
                   onClick={() => navigate('/my-courses')}
                   className="btn btn-outline flex-1"
+                  disabled={updating}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary flex-1">
-                  Save Changes
+                <button type="submit" className="btn btn-primary flex-1" disabled={updating}>
+                  {updating ? <LoadingSpinner size="text-lg" /> : 'Save Changes'}
                 </button>
               </div>
             </form>

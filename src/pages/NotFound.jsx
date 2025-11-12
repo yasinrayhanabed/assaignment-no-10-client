@@ -12,7 +12,7 @@ const NotFound = () => {
         <p className="text-gray-600 mb-8">The page you're looking for doesn't exist.</p>
         <Link 
           to="/" 
-          className="btn btn-primary hover:bg-blue-600 transition-colors"
+          className="btn btn-primary px-10 py-3 bg-blue-500 rounded-xl text-white font-bold hover:bg-blue-600 transition-colors"
         >
           Go Home
         </Link>

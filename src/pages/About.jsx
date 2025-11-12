@@ -1,29 +1,127 @@
+import { FaGraduationCap, FaUsers, FaChalkboardTeacher, FaAward } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+
 const About = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">About LearnHub</h1>
-      <div className="prose max-w-none">
-        <p className="text-lg mb-4">
-          LearnHub is a modern online learning platform designed to make education accessible to everyone.
-        </p>
-        <p className="mb-4">
-          Our mission is to provide high-quality courses that help learners develop new skills and advance their careers.
-        </p>
-        <div className="stats shadow mt-8">
-          <div className="stat">
-            <div className="stat-title">Total Courses</div>
-            <div className="stat-value">100+</div>
-          </div>
-          <div className="stat">
-            <div className="stat-title">Students</div>
-            <div className="stat-value">10K+</div>
-          </div>
-          <div className="stat">
-            <div className="stat-title">Instructors</div>
-            <div className="stat-value">50+</div>
+    <div className="pt-16 bg-base-100">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-primary to-secondary text-white py-20 shadow-lg">
+        <div className="container mx-auto px-4 text-center">
+          <motion.h1
+            className="text-5xl font-extrabold mb-4 tracking-tight"
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+           <span className='text-blue-500'> About</span> <span className="text-yellow-400">LearnVerse</span>
+          </motion.h1>
+          <motion.p
+            className="text-lg max-w-2xl mx-auto leading-relaxed text-gray-600"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            Empowering learners worldwide with quality education and innovative learning experiences.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20 bg-base-100">
+        <div className="container mx-auto px-6 text-center max-w-4xl">
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold mb-8 text-gray-800"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            Our Mission
+          </motion.h2>
+          <motion.p
+            className="text-lg text-gray-600 mb-6"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            LearnVerse is a modern online learning platform designed to make quality education accessible to everyone,
+            anywhere in the world. We believe that learning should be engaging, flexible, and tailored to individual needs.
+          </motion.p>
+          <motion.p
+            className="text-lg text-gray-600"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            Our mission is to provide high-quality courses that help learners develop new skills, advance their careers, and achieve their goals through innovative teaching and expert instruction.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-base-200">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Our Impact</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: <FaGraduationCap />, title: 'Total Courses', value: '150+', color: 'text-primary' },
+              { icon: <FaUsers />, title: 'Active Students', value: '25K+', color: 'text-secondary' },
+              { icon: <FaChalkboardTeacher />, title: 'Expert Instructors', value: '75+', color: 'text-accent' },
+              { icon: <FaAward />, title: 'Completion Rate', value: '92%', color: 'text-primary' },
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl p-8 text-center border border-gray-200"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className={`text-5xl mx-auto mb-4 ${stat.color}`}>{stat.icon}</div>
+                <p className="text-gray-600 text-sm uppercase tracking-wide mb-2">{stat.title}</p>
+                <h3 className={`text-3xl font-extrabold ${stat.color}`}>{stat.value}</h3>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-20 bg-base-100">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Our Values</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              {
+                icon: <FaGraduationCap />,
+                color: 'bg-primary',
+                title: 'Quality Education',
+                text: 'We are committed to providing the highest quality educational content and experiences.',
+              },
+              {
+                icon: <FaUsers />,
+                color: 'bg-secondary',
+                title: 'Community Focus',
+                text: 'We foster a supportive community where learners and instructors grow together.',
+              },
+              {
+                icon: <FaAward />,
+                color: 'bg-accent',
+                title: 'Excellence',
+                text: 'We strive for excellence in every aspect, from course creation to user experience.',
+              },
+            ].map((value, index) => (
+              <motion.div
+                key={index}
+                className="text-center bg-base-200 p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300"
+                whileHover={{ y: -5 }}
+              >
+                <div className={`${value.color} text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5`}>
+                  {value.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">{value.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{value.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
