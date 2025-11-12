@@ -17,10 +17,10 @@ const CourseDetails = () => {
       _id: '1',
       title: 'Complete React Development Course',
       description: 'Master React from basics to advanced concepts. Build real-world projects and learn modern React patterns. This comprehensive course covers everything from React fundamentals to advanced topics like hooks, context API, and performance optimization.',
-      image: 'https://via.placeholder.com/400x250/3B82F6/FFFFFF?text=React+Course',
+      image: 'https://i.ibb.co.com/SXzrFH67/react-js-inscription-against-laptop-and-code-background-learn-react-programming-language-computer-co.jpg',
       price: 89,
       duration: 12,
-      instructor: { name: 'John Smith', email: 'john@example.com' },
+      instructor: { name: 'John Smith', email: 'john@example.com', photo: 'https://i.ibb.co.com/jPz5Pxkn/speaker3-min.jpg' },
       category: 'Web Development',
       rating: 4.8,
       enrolled: 1250,
@@ -30,10 +30,10 @@ const CourseDetails = () => {
       _id: '2', 
       title: 'Python for Data Science',
       description: 'Learn Python programming for data analysis, visualization, and machine learning with hands-on projects. Cover pandas, numpy, matplotlib, seaborn, and scikit-learn libraries with real-world datasets.',
-      image: 'https://via.placeholder.com/400x250/10B981/FFFFFF?text=Python+Course',
+      image: 'https://i.ibb.co.com/v6qd0KQJ/pythom-data-science.webp',
       price: 75,
       duration: 10,
-      instructor: { name: 'Sarah Johnson', email: 'sarah@example.com' },
+      instructor: { name: 'Sarah Johnson', email: 'sarah@example.com', photo: 'https://i.ibb.co.com/YqMPVYb/images-q-tbn-ANd9-Gc-RMYR0-TAT4x-CZgg-7cv-Ds2g-H02s-MGHAIb-FDYQ-s.jpg' },
       category: 'Data Science',
       rating: 4.9,
       enrolled: 980,
@@ -43,10 +43,10 @@ const CourseDetails = () => {
       _id: '3',
       title: 'UI/UX Design Masterclass', 
       description: 'Create stunning user interfaces and experiences. Learn design principles, prototyping, and user research. Master tools like Figma, Adobe XD, and create portfolio-worthy projects.',
-      image: 'https://via.placeholder.com/400x250/F59E0B/FFFFFF?text=Design+Course',
+      image: 'https://i.ibb.co.com/vvjB7KDW/images-q-tbn-ANd9-Gc-Rhf-OQKOixn45-CBe-Tn-Xq-PDJCDFd-ADC1-Tx-Flfg-s.jpg',
       price: 95,
       duration: 8,
-      instructor: { name: 'Mike Wilson', email: 'mike@example.com' },
+      instructor: { name: 'Mike Wilson', email: 'mike@example.com', photo: 'https://i.ibb.co.com/V0nGpT4g/images-q-tbn-ANd9-Gc-Tvv-L76q808x9p-Jl7tnl-A77tqj-2ei0ri-Y5-KQ-s.jpg' },
       category: 'Design',
       rating: 4.7,
       enrolled: 750,
@@ -154,9 +154,12 @@ const CourseDetails = () => {
       {/* Hero Image Section */}
       <div className="relative h-72 w-full overflow-hidden">
         <img
-          src={course.image || 'https://via.placeholder.com/1200x600'}
+          src={course.image || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop'}
           alt={course.title}
           className="w-full h-full object-cover brightness-90"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white">

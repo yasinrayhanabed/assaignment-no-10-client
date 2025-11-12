@@ -111,7 +111,7 @@ const Footer = () => {
                 <FaTwitter className="text-xl text-white group-hover:scale-110 transition-transform" />
               </a>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5">
               <h5 className="font-semibold text-white mb-2">Newsletter</h5>
               <p className="text-blue-100 text-sm mb-3">Stay updated with our latest courses</p>
               <div className="flex gap-2">
@@ -120,7 +120,7 @@ const Footer = () => {
                   placeholder="Your email" 
                   className="flex-1 px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
-                <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
+                <button className="px-2 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
                   ✉️
                 </button>
               </div>

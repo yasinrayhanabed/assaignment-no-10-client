@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { FaGraduationCap, FaEye, FaEyeSlash, FaGoogle, FaEnvelope, FaLock } from 'react-icons/fa';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login, googleLogin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,70 +43,126 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-16 px-4">
-      <div className="card w-full max-w-md bg-white shadow-2xl rounded-2xl border border-gray-200">
-        <div className="card-body p-8">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h2>
-          <p className="text-center text-gray-500 mb-6">
-            Login to access your courses and dashboard
-          </p>
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text font-medium text-gray-700">Email</span>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-md">
+        {/* Logo Section */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg">
+            <FaGraduationCap className="text-2xl text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">Learning Platform</h1>
+          <p className="text-gray-600 mt-2">Welcome back! Please sign in to continue</p>
+        </div>
+
+        {/* Login Card */}
+        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <FaEnvelope className="text-blue-600" />
+                Email Address
               </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="input input-bordered w-full focus:border-[#3B82F6] focus:ring focus:ring-[#3B82F6]/30 transition-all duration-200"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                placeholder="Enter your email"
                 disabled={loading}
                 required
               />
             </div>
 
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text font-medium text-gray-700">Password</span>
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <FaLock className="text-blue-600" />
+                Password
               </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="input input-bordered w-full focus:border-[#3B82F6] focus:ring focus:ring-[#3B82F6]/30 transition-all duration-200"
-                disabled={loading}
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400 pr-12"
+                  placeholder="Enter your password"
+                  disabled={loading}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
+            {/* Login Button */}
             <button
               type="submit"
-              className="btn bg-[#3B82F6] hover:bg-[#2563EB] text-white w-full py-3 rounded-lg text-lg font-semibold transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
               disabled={loading}
             >
-              {loading ? <LoadingSpinner size="text-lg" /> : 'Login'}
+              {loading ? (
+                <>
+                  <LoadingSpinner size="text-sm" />
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </button>
 
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+              </div>
+            </div>
+
+            {/* Google Login Button */}
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="btn btn-outline w-full py-3 rounded-lg text-lg font-semibold mt-2 text-gray-700 hover:text-white hover:bg-[#F59E0B] border-gray-300 hover:border-[#F59E0B] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
               disabled={loading}
             >
-              {loading ? <LoadingSpinner size="text-lg" /> : 'Login with Google'}
+              {loading ? (
+                <LoadingSpinner size="text-sm" />
+              ) : (
+                <>
+                  <FaGoogle className="text-red-500" />
+                  Continue with Google
+                </>
+              )}
             </button>
           </form>
 
-          <p className="text-center mt-6 text-gray-500">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-[#3B82F6] hover:underline font-medium">
-              Register
-            </Link>
-          </p>
+          {/* Register Link */}
+          <div className="text-center mt-8 pt-6 border-t border-gray-100">
+            <p className="text-gray-600">
+              Don't have an account?{' '}
+              <Link 
+                to="/register" 
+                className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
+              >
+                Create Account
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
