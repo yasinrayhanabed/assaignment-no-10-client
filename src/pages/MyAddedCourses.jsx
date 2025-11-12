@@ -141,7 +141,7 @@ const MyAddedCourses = () => {
       {/* Delete Confirmation Modal */}
       {deleteModal.isOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-10 flex items-center justify-center z-50"
           onClick={closeDeleteModal}
         >
           <div 
