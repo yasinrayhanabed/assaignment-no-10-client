@@ -141,7 +141,7 @@ const MyAddedCourses = () => {
       {/* Delete Confirmation Modal */}
       {deleteModal.isOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-10 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50"
           onClick={closeDeleteModal}
         >
           <div 
@@ -157,15 +157,15 @@ const MyAddedCourses = () => {
               </div>
             </div>
             
-            {/* Title */}
+           
             <h3 className="text-2xl font-bold text-gray-900 text-center mb-4">Delete Course?</h3>
             
-            {/* Message */}
+            
             <p className="text-gray-600 text-center mb-8 leading-relaxed">
               Are you sure you want to delete this course? This action cannot be undone and all enrolled students will lose access.
             </p>
             
-            {/* Buttons */}
+           
             <div className="flex gap-4">
               <button 
                 onClick={closeDeleteModal} 
