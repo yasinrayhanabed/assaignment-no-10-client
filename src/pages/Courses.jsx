@@ -243,7 +243,7 @@ const Courses = () => {
                       {/* Action Button */}
                       <Link
                         to={`/courses/${course._id}`}
-                        className="block w-full bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg group-hover:shadow-xl"
+                        className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg group-hover:shadow-xl"
                       >
                         <span className="flex items-center justify-center">
                           View Details
