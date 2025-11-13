@@ -140,7 +140,7 @@ const CourseDetails = () => {
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Course Not Found</h1>
           <button
             onClick={() => navigate('/courses')}
-            className="btn bg-gradient-to-r from-blue-500 to-blue-700 text-white border-none px-8 py-3 rounded-xl font-medium hover:scale-105 transition-transform"
+            className="btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-8 py-3 rounded-xl font-medium hover:scale-105 transition-transform"
           >
             Back to Courses
           </button>
@@ -225,7 +225,7 @@ const CourseDetails = () => {
               className={`btn text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition-all duration-300 ${
                 isEnrolled 
                   ? 'bg-gray-400 text-white cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-none hover:scale-105'
+                  : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none hover:scale-105'
               }`}
             >
               {enrolling ? <LoadingSpinner size="text-lg" /> : isEnrolled ? 'Enrolled' : 'Enroll Now'}

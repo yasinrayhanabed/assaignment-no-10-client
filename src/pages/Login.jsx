@@ -52,7 +52,7 @@ const Login = () => {
       <div className="w-full max-w-md">
         {/* Logo Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16  bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl mb-4 shadow-lg">
             <FaGraduationCap className="text-2xl text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Learning Platform</h1>
@@ -110,7 +110,7 @@ const Login = () => {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
               disabled={loading}
             >
               {loading ? (
@@ -144,7 +144,7 @@ const Login = () => {
                 <LoadingSpinner size="text-sm" />
               ) : (
                 <>
-                  <FaGoogle className="text-red-500" />
+                  <img src="https://i.ibb.co.com/0VRzxGRG/image8-2.jpg" alt="Google" className="w-5 h-5" />
                   Continue with Google
                 </>
               )}

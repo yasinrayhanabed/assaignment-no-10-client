@@ -218,7 +218,7 @@ const Register = () => {
                 <LoadingSpinner size="text-sm" />
               ) : (
                 <>
-                  <FaGoogle className="text-red-500" />
+                  <img src="https://i.ibb.co.com/0VRzxGRG/image8-2.jpg" alt="Google" className="w-5 h-5" />
                   Continue with Google
                 </>
               )}

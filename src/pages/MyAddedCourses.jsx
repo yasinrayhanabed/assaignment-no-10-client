@@ -71,7 +71,7 @@ const MyAddedCourses = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">My Added Courses</h1>
-        <Link to="/add-course" className="btn bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-lg px-6 py-2 transition-all">
+        <Link to="/add-course" className="btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-lg px-6 py-2 transition-all">
           Add New Course
         </Link>
       </div>
@@ -82,7 +82,7 @@ const MyAddedCourses = () => {
           <div className="text-6xl mb-4">📚</div>
           <h2 className="text-2xl font-semibold mb-2 text-gray-800">No courses added yet</h2>
           <p className="text-gray-500 mb-4">Start by adding your first course</p>
-          <Link to="/add-course" className="btn bg-[#10B981] hover:bg-[#059669] text-white rounded-lg px-6 py-2">
+          <Link to="/add-course" className="btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-lg px-6 py-2">
             Add Course
           </Link>
         </div>
@@ -122,7 +122,7 @@ const MyAddedCourses = () => {
                       </Link>
                       <button
                         onClick={() => openDeleteModal(course._id)}
-                        className="btn btn-sm bg-red-500 hover:bg-red-600 px-3 py-2 rounded-xl text-white border-none flex items-center gap-1"
+                        className="btn btn-sm bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-3 py-2 rounded-xl text-white border-none flex items-center gap-1"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -176,7 +176,7 @@ const MyAddedCourses = () => {
               <button
                 onClick={() => handleDelete(deleteModal.courseId)}
                 disabled={deleting}
-                className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {deleting ? (
                   <>

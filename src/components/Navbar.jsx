@@ -39,10 +39,11 @@ const Navbar = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-3 text-2xl text-blue-500 font-extrabold text-primary tracking-wide hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-3 text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wide hover:scale-105 transition-transform duration-200"
+
         >
           <div className="p-2 bg-primary/10 rounded-lg">
-            <FaGraduationCap className="text-2xl text-primary" />
+            <FaGraduationCap className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wide text-primary" />
           </div>
           Learning Platform
         </Link>
@@ -189,13 +190,13 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="btn btn-outline btn-sm text-white bg-blue-600 px-3 py-2 rounded-lg hover:bg-primary hover:text-white transition-all hover:bg-blue-700"
+                className="btn btn-outline btn-sm bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-3 py-2 rounded-lg border-none transition-all"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="btn btn-primary btn-sm rounded-lg text-white py-2 px-3 bg-blue-600 rounded hover:bg-blue-700"
+                className="btn btn-primary btn-sm rounded-lg text-white py-2 px-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 border-none"
               >
                 Register
               </Link>
@@ -355,7 +356,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/login"
-                    className="block text-white bg-blue-600 p-2 py-2 px-3 rounded hover:bg-blue-700"
+                    className="block text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 p-2 py-2 px-3 rounded border-none"
                     onClick={() => setMenuOpen(false)}
                   >
                     Login
@@ -364,7 +365,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/register"
-                    className="block py-2 px-3 text-white bg-blue-600 p-2 py-2 px-3 rounded hover:bg-blue-700"
+                    className="block py-2 px-3 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 p-2 py-2 px-3 rounded border-none"
                     onClick={() => setMenuOpen(false)}
                   >
                     Register

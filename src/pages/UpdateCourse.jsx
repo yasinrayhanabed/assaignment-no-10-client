@@ -231,7 +231,7 @@ const UpdateCourse = () => {
               </button>
               <button 
                 type="submit" 
-                className="btn flex-1 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1E40AF] text-white border-none rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105" 
+                className="btn flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105" 
                 disabled={updating}
               >
                 {updating ? <LoadingSpinner size="text-lg" /> : 'Update Course'}

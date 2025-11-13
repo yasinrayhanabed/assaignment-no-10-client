@@ -107,7 +107,7 @@ const Home = () => {
           >
             <Link 
               to="/courses" 
-              className="btn bg-[#10B981] rounded-xl hover:bg-[#059669] text-white border-none px-10 py-4 text-lg font-medium transition-transform duration-300 hover:scale-105"
+              className="btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-xl text-white border-none px-10 py-4 text-lg font-medium transition-transform duration-300 hover:scale-105"
             >
               Get Started
             </Link>
@@ -214,7 +214,7 @@ const Home = () => {
                     {/* Action Button */}
                     <Link
                       to={`/courses/${course._id}`}
-                      className="block w-full bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg group-hover:shadow-xl"
+                      className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg group-hover:shadow-xl"
                     >
                       <span className="flex items-center justify-center">
                         View Details
@@ -239,7 +239,7 @@ const Home = () => {
           >
             <Link 
               to="/courses" 
-              className="btn bg-transparent rounded-xl border-2 border-[#3B82F6] text-[#3B82F6] hover:bg-[#3B82F6] hover:text-white transition-all duration-300 px-8 py-3"
+              className="btn bg-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 rounded-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 hover:text-white border-2 border-purple-600 hover:border-transparent transition-all duration-300 px-8 py-3"
             >
               View All Courses
             </Link>
