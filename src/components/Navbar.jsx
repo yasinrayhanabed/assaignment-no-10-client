@@ -43,7 +43,7 @@ const Navbar = () => {
 
         >
           <div className="p-2 bg-primary/10 rounded-lg">
-            <FaGraduationCap className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wide text-primary" />
+            <FaGraduationCap className="text-2xl text-transparent tracking-wide text-primary"></FaGraduationCap>
           </div>
           Learning Platform
         </Link>

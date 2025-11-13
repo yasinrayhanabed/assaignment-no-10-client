@@ -239,7 +239,7 @@ const Home = () => {
           >
             <Link 
               to="/courses" 
-              className="btn bg-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 rounded-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 hover:text-white border-2 border-purple-600 hover:border-transparent transition-all duration-300 px-8 py-3"
+              className="btn bg-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:text-white hover:bg-clip-border border-2 border-purple-600 hover:border-none transition-all duration-300 px-8 py-3"
             >
               View All Courses
             </Link>
