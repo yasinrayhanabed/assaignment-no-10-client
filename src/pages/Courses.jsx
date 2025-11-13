@@ -216,7 +216,7 @@ const Courses = () => {
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Search courses... (Live search)"
+                        placeholder="Search courses..."
                         className={`w-full px-4 py-3 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all border ${
                           isDark
                             ? "border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400"
