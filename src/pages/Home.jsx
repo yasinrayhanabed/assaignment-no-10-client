@@ -23,7 +23,9 @@ const Home = () => {
   const { data: featuredCourses = [], isLoading } = useQuery({
     queryKey: ["featuredCourses"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:5000/courses/featured");
+      const response = await fetch(
+        "https://online-learning-platform-server-orpin.vercel.app/courses/featured"
+      );
       if (!response.ok) throw new Error("Failed to fetch featured courses");
       return response.json();
     },

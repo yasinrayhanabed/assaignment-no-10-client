@@ -1,37 +1,57 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import LoadingSpinner from '../components/LoadingSpinner';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../components/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const UpdateCourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(false); // detect dark mode
   const [formData, setFormData] = useState({
-    title: '',
-    image: '',
-    price: '',
-    duration: '',
-    category: '',
-    description: '',
+    title: "",
+    image: "",
+    price: "",
+    duration: "",
+    category: "",
+    description: "",
     isFeatured: false,
   });
   const [updating, setUpdating] = useState(false);
 
   const categories = [
-    'Web Development',
-    'Backend Development',
-    'Design',
-    'Mobile Development',
-    'Data Science',
-    'Marketing',
+    "Web Development",
+    "Backend Development",
+    "Design",
+    "Mobile Development",
+    "Data Science",
+    "Marketing",
   ];
 
-  const { data: course, isLoading, error } = useQuery({
-    queryKey: ['course', id],
+  // detect dark mode based on body or localStorage
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    setIsDark(document.documentElement.classList.contains("dark"));
+    return () => observer.disconnect();
+  }, []);
+
+  const {
+    data: course,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["course", id],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:5000/courses/${id}`);
-      if (!response.ok) throw new Error('Course not found');
+      const response = await fetch(
+        `https://online-learning-platform-server-orpin.vercel.app/courses/${id}`
+      );
+      if (!response.ok) throw new Error("Course not found");
       return response.json();
     },
   });
@@ -39,12 +59,12 @@ const UpdateCourse = () => {
   useEffect(() => {
     if (course) {
       setFormData({
-        title: course.title || '',
-        image: course.image || '',
-        price: course.price?.toString() || '',
-        duration: course.duration?.toString() || '',
-        category: course.category || '',
-        description: course.description || '',
+        title: course.title || "",
+        image: course.image || "",
+        price: course.price?.toString() || "",
+        duration: course.duration?.toString() || "",
+        category: course.category || "",
+        description: course.description || "",
         isFeatured: course.isFeatured || false,
       });
     }
@@ -54,7 +74,7 @@ const UpdateCourse = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -69,22 +89,25 @@ const UpdateCourse = () => {
         duration: parseInt(formData.duration),
       };
 
-      const response = await fetch(`http://localhost:5000/update-course/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(courseData),
-      });
+      const response = await fetch(
+        `https://online-learning-platform-server-orpin.vercel.app/update-course/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(courseData),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Course updated successfully!');
-        navigate('/my-courses');
+        toast.success("Course updated successfully!");
+        navigate("/my-courses");
       } else {
-        toast.error(data.error || 'Failed to update course');
+        toast.error(data.error || "Failed to update course");
       }
     } catch {
-      toast.error('Failed to update course. Please try again.');
+      toast.error("Failed to update course. Please try again.");
     } finally {
       setUpdating(false);
     }
@@ -104,7 +127,7 @@ const UpdateCourse = () => {
           Course not found
         </h1>
         <button
-          onClick={() => navigate('/my-courses')}
+          onClick={() => navigate("/my-courses")}
           className="btn bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl px-6 py-3 hover:opacity-90"
         >
           Back to My Courses
@@ -113,7 +136,13 @@ const UpdateCourse = () => {
     );
 
   return (
-    <div className="min-h-screen pt-20 pb-10 flex items-center justify-center transition-colors duration-300 bg-gradient-to-br from-[#EFF6FF] via-[#E0F2FE] to-[#DBEAFE] dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div
+      className={`min-h-screen pt-20 pb-10 flex items-center justify-center transition-colors duration-300 ${
+        isDark
+          ? "bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950"
+          : "bg-gradient-to-br from-[#EFF6FF] via-[#E0F2FE] to-[#DBEAFE]"
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 p-8">
           <h1 className="text-4xl font-extrabold text-center text-[#1E3A8A] dark:text-blue-400 mb-8">
@@ -240,7 +269,7 @@ const UpdateCourse = () => {
             <div className="flex gap-4">
               <button
                 type="button"
-                onClick={() => navigate('/my-courses')}
+                onClick={() => navigate("/my-courses")}
                 className="flex-1 bg-gray-500 hover:bg-gray-600 text-white rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105"
                 disabled={updating}
               >
@@ -251,7 +280,7 @@ const UpdateCourse = () => {
                 className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl py-3 text-lg font-semibold transition-transform duration-300 hover:scale-105"
                 disabled={updating}
               >
-                {updating ? <LoadingSpinner size="text-lg" /> : 'Update Course'}
+                {updating ? <LoadingSpinner size="text-lg" /> : "Update Course"}
               </button>
             </div>
           </form>

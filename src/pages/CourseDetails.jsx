@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '../contexts/AuthContext';
-import LoadingSpinner from '../components/LoadingSpinner';
-import toast from 'react-hot-toast';
-import { useTheme } from '../contexts/ThemeContext';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../contexts/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
+import toast from "react-hot-toast";
+import { useTheme } from "../contexts/ThemeContext";
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -16,71 +16,100 @@ const CourseDetails = () => {
 
   const popularCourses = [
     {
-      _id: '1',
-      title: 'Complete React Development Course',
-      description: 'Master React from basics to advanced concepts. Build real-world projects and learn modern React patterns. This comprehensive course covers everything from React fundamentals to advanced topics like hooks, context API, and performance optimization.',
-      image: 'https://i.ibb.co.com/SXzrFH67/react-js-inscription-against-laptop-and-code-background-learn-react-programming-language-computer-co.jpg',
+      _id: "1",
+      title: "Complete React Development Course",
+      description:
+        "Master React from basics to advanced concepts. Build real-world projects and learn modern React patterns. This comprehensive course covers everything from React fundamentals to advanced topics like hooks, context API, and performance optimization.",
+      image:
+        "https://i.ibb.co.com/SXzrFH67/react-js-inscription-against-laptop-and-code-background-learn-react-programming-language-computer-co.jpg",
       price: 89,
       duration: 12,
-      instructor: { name: 'John Smith', email: 'john@example.com', photo: 'https://i.ibb.co.com/jPz5Pxkn/speaker3-min.jpg' },
-      category: 'Web Development',
+      instructor: {
+        name: "John Smith",
+        email: "john@example.com",
+        photo: "https://i.ibb.co.com/jPz5Pxkn/speaker3-min.jpg",
+      },
+      category: "Web Development",
       rating: 4.8,
-      enrolledCount: 1250
+      enrolledCount: 1250,
     },
     {
-      _id: '2', 
-      title: 'Python for Data Science',
-      description: 'Learn Python programming for data analysis, visualization, and machine learning with hands-on projects. Cover pandas, numpy, matplotlib, seaborn, and scikit-learn libraries with real-world datasets.',
-      image: 'https://i.ibb.co.com/v6qd0KQJ/pythom-data-science.webp',
+      _id: "2",
+      title: "Python for Data Science",
+      description:
+        "Learn Python programming for data analysis, visualization, and machine learning with hands-on projects. Cover pandas, numpy, matplotlib, seaborn, and scikit-learn libraries with real-world datasets.",
+      image: "https://i.ibb.co.com/v6qd0KQJ/pythom-data-science.webp",
       price: 75,
       duration: 10,
-      instructor: { name: 'Sarah Johnson', email: 'sarah@example.com', photo: 'https://i.ibb.co.com/YqMPVYb/images-q-tbn-ANd9-Gc-RMYR0-TAT4x-CZgg-7cv-Ds2g-H02s-MGHAIb-FDYQ-s.jpg' },
-      category: 'Data Science',
+      instructor: {
+        name: "Sarah Johnson",
+        email: "sarah@example.com",
+        photo:
+          "https://i.ibb.co.com/YqMPVYb/images-q-tbn-ANd9-Gc-RMYR0-TAT4x-CZgg-7cv-Ds2g-H02s-MGHAIb-FDYQ-s.jpg",
+      },
+      category: "Data Science",
       rating: 4.9,
-      enrolledCount: 980
+      enrolledCount: 980,
     },
     {
-      _id: '3',
-      title: 'UI/UX Design Masterclass', 
-      description: 'Create stunning user interfaces and experiences. Learn design principles, prototyping, and user research. Master tools like Figma, Adobe XD, and create portfolio-worthy projects.',
-      image: 'https://i.ibb.co.com/vvjB7KDW/images-q-tbn-ANd9-Gc-Rhf-OQKOixn45-CBe-Tn-Xq-PDJCDFd-ADC1-Tx-Flfg-s.jpg',
+      _id: "3",
+      title: "UI/UX Design Masterclass",
+      description:
+        "Create stunning user interfaces and experiences. Learn design principles, prototyping, and user research. Master tools like Figma, Adobe XD, and create portfolio-worthy projects.",
+      image:
+        "https://i.ibb.co.com/vvjB7KDW/images-q-tbn-ANd9-Gc-Rhf-OQKOixn45-CBe-Tn-Xq-PDJCDFd-ADC1-Tx-Flfg-s.jpg",
       price: 95,
       duration: 8,
-      instructor: { name: 'Mike Wilson', email: 'mike@example.com', photo: 'https://i.ibb.co.com/V0nGpT4g/images-q-tbn-ANd9-Gc-Tvv-L76q808x9p-Jl7tnl-A77tqj-2ei0ri-Y5-KQ-s.jpg' },
-      category: 'Design',
+      instructor: {
+        name: "Mike Wilson",
+        email: "mike@example.com",
+        photo:
+          "https://i.ibb.co.com/V0nGpT4g/images-q-tbn-ANd9-Gc-Tvv-L76q808x9p-Jl7tnl-A77tqj-2ei0ri-Y5-KQ-s.jpg",
+      },
+      category: "Design",
       rating: 4.7,
-      enrolledCount: 750
-    }
+      enrolledCount: 750,
+    },
   ];
 
-  const { data: apiCourse, isLoading, error } = useQuery({
-    queryKey: ['course', id],
+  const {
+    data: apiCourse,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["course", id],
     queryFn: async () => {
-      const popularCourse = popularCourses.find(course => course._id === id);
+      const popularCourse = popularCourses.find((course) => course._id === id);
       if (popularCourse) return popularCourse;
-      const response = await fetch(`http://localhost:5000/courses/${id}`);
-      if (!response.ok) throw new Error('Course not found');
+      const response = await fetch(
+        `https://online-learning-platform-server-orpin.vercel.app/courses/${id}`
+      );
+      if (!response.ok) throw new Error("Course not found");
       return response.json();
     },
   });
 
   const { data: isEnrolled = false } = useQuery({
-    queryKey: ['enrollment', id, user?.email],
+    queryKey: ["enrollment", id, user?.email],
     queryFn: async () => {
       if (!user?.email) return false;
-      const response = await fetch(`http://localhost:5000/check-enrollment/${id}/${user.email}`);
+      const response = await fetch(
+        `https://online-learning-platform-server-orpin.vercel.app/check-enrollment/${id}/${user.email}`
+      );
       if (!response.ok) return false;
       const data = await response.json();
       return data.enrolled;
     },
-    enabled: !!user?.email && !!id
+    enabled: !!user?.email && !!id,
   });
 
   const { data: enrollmentCount = 0 } = useQuery({
-    queryKey: ['enrollmentCount', id],
+    queryKey: ["enrollmentCount", id],
     queryFn: async () => {
       try {
-        const response = await fetch(`http://localhost:5000/enrollment-count/${id}`);
+        const response = await fetch(
+          `https://online-learning-platform-server-orpin.vercel.app/enrollment-count/${id}`
+        );
         if (!response.ok) return apiCourse?.enrolledCount || 0;
         const data = await response.json();
         return data.count || apiCourse?.enrolledCount || 0;
@@ -88,40 +117,43 @@ const CourseDetails = () => {
         return apiCourse?.enrolledCount || 0;
       }
     },
-    enabled: !!id
+    enabled: !!id,
   });
 
   const course = apiCourse;
 
   const handleEnroll = async () => {
     if (!user) {
-      toast.error('Please login to enroll in courses');
-      navigate('/login');
+      toast.error("Please login to enroll in courses");
+      navigate("/login");
       return;
     }
 
     setEnrolling(true);
     try {
-      const response = await fetch('http://localhost:5000/enroll', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          courseId: course._id,
-          userEmail: user.email,
-          courseName: course.title,
-          instructorName: course.instructor?.name,
-          duration: course.duration,
-        }),
-      });
+      const response = await fetch(
+        "https://online-learning-platform-server-orpin.vercel.app/enroll",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            courseId: course._id,
+            userEmail: user.email,
+            courseName: course.title,
+            instructorName: course.instructor?.name,
+            duration: course.duration,
+          }),
+        }
+      );
       const data = await response.json();
       if (response.ok) {
-        toast.success('🎉 Enrolled successfully!');
-        queryClient.invalidateQueries(['enrollment', id, user.email]);
+        toast.success("🎉 Enrolled successfully!");
+        queryClient.invalidateQueries(["enrollment", id, user.email]);
       } else {
-        toast.error(data.error || 'Enrollment failed');
+        toast.error(data.error || "Enrollment failed");
       }
     } catch {
-      toast.error('Enrollment failed. Please try again.');
+      toast.error("Enrollment failed. Please try again.");
     } finally {
       setEnrolling(false);
     }
@@ -129,7 +161,13 @@ const CourseDetails = () => {
 
   if (isLoading) {
     return (
-      <div className={`min-h-screen flex justify-center items-center transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100'}`}>
+      <div
+        className={`min-h-screen flex justify-center items-center transition-colors duration-300 ${
+          isDark
+            ? "bg-gray-950"
+            : "bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100"
+        }`}
+      >
         <LoadingSpinner size="text-6xl" />
       </div>
     );
@@ -137,11 +175,23 @@ const CourseDetails = () => {
 
   if (error || !course) {
     return (
-      <div className={`min-h-screen flex flex-col justify-center items-center transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100'}`}>
-        <div className={`rounded-2xl p-10 text-center shadow-xl ${isDark ? 'bg-gray-900 text-gray-100' : 'bg-white/80 backdrop-blur-md text-gray-800'}`}>
+      <div
+        className={`min-h-screen flex flex-col justify-center items-center transition-colors duration-300 ${
+          isDark
+            ? "bg-gray-950"
+            : "bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100"
+        }`}
+      >
+        <div
+          className={`rounded-2xl p-10 text-center shadow-xl ${
+            isDark
+              ? "bg-gray-900 text-gray-100"
+              : "bg-white/80 backdrop-blur-md text-gray-800"
+          }`}
+        >
           <h1 className="text-3xl font-bold mb-6">Course Not Found</h1>
           <button
-            onClick={() => navigate('/courses')}
+            onClick={() => navigate("/courses")}
             className="btn bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-8 py-3 rounded-xl font-medium hover:scale-105 transition-transform"
           >
             Back to Courses
@@ -152,34 +202,71 @@ const CourseDetails = () => {
   }
 
   return (
-    <div className={`min-h-screen pt-16 transition-colors duration-300 ${isDark ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-b from-blue-50 via-sky-100 to-white'}`}>
+    <div
+      className={`min-h-screen pt-16 transition-colors duration-300 ${
+        isDark
+          ? "bg-gray-900 text-gray-100"
+          : "bg-gradient-to-b from-blue-50 via-sky-100 to-white"
+      }`}
+    >
       {/* Hero Section */}
       <div className="relative h-72 w-full overflow-hidden">
         <img
-          src={course.image || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop'}
+          src={
+            course.image ||
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop"
+          }
           alt={course.title}
           className="w-full h-full object-cover brightness-90"
-          onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop'; }}
+          onError={(e) => {
+            e.target.src =
+              "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop";
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center">
-          <h1 className="text-4xl font-extrabold drop-shadow-lg">{course.title}</h1>
-          <p className={`mt-2 ${isDark ? 'text-gray-300' : 'text-blue-100'}`}>{course.category}</p>
+          <h1 className="text-4xl font-extrabold drop-shadow-lg">
+            {course.title}
+          </h1>
+          <p className={`mt-2 ${isDark ? "text-gray-300" : "text-blue-100"}`}>
+            {course.category}
+          </p>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className={`max-w-5xl mx-auto rounded-2xl p-8 shadow-xl transition-colors duration-300 ${isDark ? 'bg-gray-800' : 'bg-white/80 backdrop-blur-md'}`}>
-          
+        <div
+          className={`max-w-5xl mx-auto rounded-2xl p-8 shadow-xl transition-colors duration-300 ${
+            isDark ? "bg-gray-800" : "bg-white/80 backdrop-blur-md"
+          }`}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             {/* Course Details */}
-            <div className={`p-6 rounded-xl border transition-colors duration-300 ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-blue-50 border-blue-100 hover:shadow-lg'}`}>
-              <h3 className={`text-2xl font-bold mb-4 ${isDark ? 'text-blue-400' : 'text-blue-800'}`}>Course Details</h3>
+            <div
+              className={`p-6 rounded-xl border transition-colors duration-300 ${
+                isDark
+                  ? "bg-gray-700 border-gray-600"
+                  : "bg-blue-50 border-blue-100 hover:shadow-lg"
+              }`}
+            >
+              <h3
+                className={`text-2xl font-bold mb-4 ${
+                  isDark ? "text-blue-400" : "text-blue-800"
+                }`}
+              >
+                Course Details
+              </h3>
               <ul className="space-y-3 font-medium">
                 <li className="flex justify-between">
                   <span>💲 Price:</span>
-                  <span className={`${isDark ? 'text-blue-300' : 'text-blue-600'} font-semibold`}>${course.price}</span>
+                  <span
+                    className={`${
+                      isDark ? "text-blue-300" : "text-blue-600"
+                    } font-semibold`}
+                  >
+                    ${course.price}
+                  </span>
                 </li>
                 <li className="flex justify-between">
                   <span>⏱ Duration:</span>
@@ -193,24 +280,46 @@ const CourseDetails = () => {
             </div>
 
             {/* Instructor */}
-            <div className={`p-6 rounded-xl border transition-colors duration-300 ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-indigo-50 border-indigo-100 hover:shadow-lg'}`}>
-              <h3 className={`text-2xl font-bold mb-4 ${isDark ? 'text-indigo-300' : 'text-indigo-800'}`}>Instructor</h3>
+            <div
+              className={`p-6 rounded-xl border transition-colors duration-300 ${
+                isDark
+                  ? "bg-gray-700 border-gray-600"
+                  : "bg-indigo-50 border-indigo-100 hover:shadow-lg"
+              }`}
+            >
+              <h3
+                className={`text-2xl font-bold mb-4 ${
+                  isDark ? "text-indigo-300" : "text-indigo-800"
+                }`}
+              >
+                Instructor
+              </h3>
               <div className="flex items-center gap-4">
                 <img
-                  src={course.instructor?.photo || 'https://via.placeholder.com/60'}
+                  src={
+                    course.instructor?.photo || "https://via.placeholder.com/60"
+                  }
                   alt="Instructor"
                   className="w-16 h-16 rounded-full border-2 border-indigo-300"
                 />
                 <div>
-                  <p className="font-semibold">{course.instructor?.name || 'Unknown'}</p>
-                  <p className="text-sm">{course.instructor?.email || 'N/A'}</p>
+                  <p className="font-semibold">
+                    {course.instructor?.name || "Unknown"}
+                  </p>
+                  <p className="text-sm">{course.instructor?.email || "N/A"}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Description */}
-          <div className={`p-6 rounded-xl border mb-10 shadow-sm hover:shadow-md transition-colors duration-300 ${isDark ? 'bg-gray-700 border-gray-600 text-gray-100' : 'bg-white border-gray-100 text-gray-800'}`}>
+          <div
+            className={`p-6 rounded-xl border mb-10 shadow-sm hover:shadow-md transition-colors duration-300 ${
+              isDark
+                ? "bg-gray-700 border-gray-600 text-gray-100"
+                : "bg-white border-gray-100 text-gray-800"
+            }`}
+          >
             <h3 className="text-2xl font-bold mb-4">Course Description</h3>
             <p className="leading-relaxed text-justify">{course.description}</p>
           </div>
@@ -221,12 +330,18 @@ const CourseDetails = () => {
               onClick={handleEnroll}
               disabled={enrolling || isEnrolled}
               className={`btn text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition-all duration-300 ${
-                isEnrolled 
-                  ? 'bg-gray-400 text-white cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none hover:scale-105'
+                isEnrolled
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none hover:scale-105"
               }`}
             >
-              {enrolling ? <LoadingSpinner size="text-lg" /> : isEnrolled ? 'Enrolled' : 'Enroll Now'}
+              {enrolling ? (
+                <LoadingSpinner size="text-lg" />
+              ) : isEnrolled ? (
+                "Enrolled"
+              ) : (
+                "Enroll Now"
+              )}
             </button>
           </div>
         </div>
