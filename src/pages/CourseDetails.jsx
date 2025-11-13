@@ -85,6 +85,22 @@ const CourseDetails = () => {
     enabled: !!user?.email && !!id
   });
 
+  // Get enrollment count for the course
+  const { data: enrollmentCount = 0 } = useQuery({
+    queryKey: ['enrollmentCount', id],
+    queryFn: async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/enrollment-count/${id}`);
+        if (!response.ok) return course?.enrolledCount || course?.enrolled || 0;
+        const data = await response.json();
+        return data.count || 0;
+      } catch (error) {
+        return course?.enrolledCount || course?.enrolled || 0;
+      }
+    },
+    enabled: !!id
+  });
+
   const course = apiCourse;
 
   const handleEnroll = async () => {
@@ -187,7 +203,7 @@ const CourseDetails = () => {
                 </li>
                 <li className="flex justify-between">
                   <span>👥 Enrolled:</span>
-                  <span>{course.enrolledCount || 0} students</span>
+                  <span>{enrollmentCount} students</span>
                 </li>
               </ul>
             </div>

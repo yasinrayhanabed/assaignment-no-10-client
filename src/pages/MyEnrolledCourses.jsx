@@ -94,7 +94,7 @@ const MyEnrolledCourses = () => {
                 <div className="card-actions justify-end">
                   <Link
                     to={`/courses/${enrollment.courseId}`}
-                    className="btn btn-primary btn-sm w-full"
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl text-center inline-block"
                   >
                     Continue Learning
                   </Link>

@@ -1,4 +1,4 @@
-import { FaGraduationCap, FaUsers, FaChalkboardTeacher, FaAward } from 'react-icons/fa';
+import { FaGraduationCap, FaUsers, FaChalkboardTeacher, FaAward, FaHeart, FaLightbulb } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const About = () => {
@@ -83,39 +83,46 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-base-100">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
               {
                 icon: <FaGraduationCap />,
-                color: 'bg-primary',
+                color: 'bg-gradient-to-r from-purple-600 to-blue-600',
                 title: 'Quality Education',
                 text: 'We are committed to providing the highest quality educational content and experiences.',
               },
               {
-                icon: <FaUsers />,
-                color: 'bg-secondary',
+                icon: <FaHeart />,
+                color: 'bg-gradient-to-r from-pink-500 to-red-500',
                 title: 'Community Focus',
                 text: 'We foster a supportive community where learners and instructors grow together.',
               },
               {
-                icon: <FaAward />,
-                color: 'bg-accent',
-                title: 'Excellence',
-                text: 'We strive for excellence in every aspect, from course creation to user experience.',
+                icon: <FaLightbulb />,
+                color: 'bg-gradient-to-r from-yellow-500 to-orange-500',
+                title: 'Innovation',
+                text: 'We embrace innovative teaching methods and cutting-edge technology for better learning.',
               },
             ].map((value, index) => (
               <motion.div
                 key={index}
-                className="text-center bg-base-200 p-8 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300"
-                whileHover={{ y: -5 }}
+                className="text-center bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                whileHover={{ y: -8, scale: 1.02 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
               >
-                <div className={`${value.color} text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5`}>
+                <motion.div 
+                  className={`${value.color} text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl shadow-lg`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
                   {value.icon}
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-gray-800">{value.title}</h3>
+                </motion.div>
+                <h3 className="text-xl font-bold mb-4 text-gray-800">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{value.text}</p>
               </motion.div>
             ))}

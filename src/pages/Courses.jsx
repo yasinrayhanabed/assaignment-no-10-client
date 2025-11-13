@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, useDeferredValue, useTransition } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -6,8 +6,36 @@ import toast from 'react-hot-toast';
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeSearchTerm, setActiveSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+
+  // Non-blocking search update
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      startTransition(() => {
+        setActiveSearchTerm(deferredSearchTerm);
+      });
+    }, 300);
+    
+    return () => clearTimeout(timeoutId);
+  }, [deferredSearchTerm]);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setIsSearching(value !== deferredSearchTerm);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setActiveSearchTerm(searchTerm);
+    setIsSearching(false);
+  };
 
   const popularCourses = [
     {
@@ -49,10 +77,10 @@ const Courses = () => {
   ];
 
   const { data: apiCourses = [], isLoading, error } = useQuery({
-    queryKey: ['courses', searchTerm, selectedCategory],
+    queryKey: ['courses', activeSearchTerm, selectedCategory],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (searchTerm) params.append('search', searchTerm);
+      if (activeSearchTerm) params.append('search', activeSearchTerm);
       if (selectedCategory) params.append('category', selectedCategory);
 
       const response = await fetch(`http://localhost:5000/courses?${params}`);
@@ -68,11 +96,13 @@ const Courses = () => {
   });
 
   // Combine popular courses with API courses
-  const courses = [...popularCourses, ...apiCourses].filter(course => {
-    const matchesSearch = !searchTerm || course.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = !selectedCategory || course.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const courses = useMemo(() => {
+    return [...popularCourses, ...apiCourses].filter(course => {
+      const matchesSearch = !activeSearchTerm || course.title.toLowerCase().includes(activeSearchTerm.toLowerCase());
+      const matchesCategory = !selectedCategory || course.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [apiCourses, activeSearchTerm, selectedCategory]);
 
   // Fetch categories
   useEffect(() => {
@@ -128,13 +158,32 @@ const Courses = () => {
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                  <input
-                    type="text"
-                    placeholder="Search courses..."
-                    className="input input-bordered w-full border border-black p-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition-all"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+                  <form onSubmit={handleSearchSubmit}>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search courses... (Live search)"
+                        className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                      />
+                      {(isSearching || isPending) && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                      )}
+                      {!isSearching && !isPending && searchTerm && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {isPending ? 'Updating results...' : 'Live search with non-blocking updates'}
+                  </p>
                 </div>
 
                 <div>

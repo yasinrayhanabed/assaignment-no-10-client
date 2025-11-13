@@ -144,7 +144,7 @@ const Login = () => {
                 <LoadingSpinner size="text-sm" />
               ) : (
                 <>
-                  <img src="https://i.ibb.co.com/0VRzxGRG/image8-2.jpg" alt="Google" className="w-5 h-5" />
+                  <img src="https://i.ibb.co.com/gF3yw26k/image8-2-removebg-preview.png" alt="Google" className="w-10 h-5" />
                   Continue with Google
                 </>
               )}

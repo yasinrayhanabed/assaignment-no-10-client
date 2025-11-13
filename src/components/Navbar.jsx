@@ -6,7 +6,7 @@ import { FaGraduationCap } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, isDark } = useTheme();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -34,27 +34,30 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-white shadow-md fixed top-0 w-full z-50 border-b border-gray-200">
+    <nav className={`${isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} shadow-md fixed top-0 w-full z-50 border-b transition-colors duration-300`}>
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-3 text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wide hover:scale-105 transition-transform duration-200"
-
+          className="flex items-center gap-3 hover:scale-105 transition-transform duration-200"
         >
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <FaGraduationCap className="text-2xl text-transparent tracking-wide text-primary"></FaGraduationCap>
+          <div className="p-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg">
+            <FaGraduationCap className="text-2xl text-white"></FaGraduationCap>
           </div>
-          Learning Platform
+          <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 tracking-wide">
+            Learning Platform
+          </span>
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center space-x-6 text-[15px] font-medium">
+        <ul className={`hidden lg:flex items-center space-x-6 text-[15px] font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
           <li>
             <Link
               to="/"
               className={`${
-                isActiveRoute('/') ? 'text-primary font-semibold border-b-2 border-primary' : 'hover:text-primary'
+                isActiveRoute('/') 
+                  ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2` 
+                  : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
               } transition-colors duration-200`}
             >
               Home
@@ -65,8 +68,8 @@ const Navbar = () => {
               to="/courses"
               className={`${
                 isActiveRoute('/courses')
-                  ? 'text-primary font-semibold border-b-2 border-primary'
-                  : 'hover:text-primary'
+                  ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2`
+                  : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
               } transition-colors duration-200`}
             >
               Courses
@@ -77,8 +80,8 @@ const Navbar = () => {
               to="/about"
               className={`${
                 isActiveRoute('/about')
-                  ? 'text-primary font-semibold border-b-2 border-primary'
-                  : 'hover:text-primary'
+                  ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2`
+                  : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
               } transition-colors duration-200`}
             >
               About
@@ -91,8 +94,8 @@ const Navbar = () => {
                   to="/add-course"
                   className={`${
                     isActiveRoute('/add-course')
-                      ? 'text-primary font-semibold border-b-2 border-primary'
-                      : 'hover:text-primary'
+                      ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2`
+                      : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
                   } transition-colors duration-200`}
                 >
                   Add Course
@@ -103,8 +106,8 @@ const Navbar = () => {
                   to="/my-courses"
                   className={`${
                     isActiveRoute('/my-courses')
-                      ? 'text-primary font-semibold border-b-2 border-primary'
-                      : 'hover:text-primary'
+                      ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2`
+                      : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
                   } transition-colors duration-200`}
                 >
                   My Courses
@@ -115,8 +118,8 @@ const Navbar = () => {
                   to="/my-enrolled-courses"
                   className={`${
                     isActiveRoute('/my-enrolled-courses')
-                      ? 'text-primary font-semibold border-b-2 border-primary'
-                      : 'hover:text-primary'
+                      ? `${isDark ? 'text-blue-400 border-blue-400' : 'text-blue-600 border-blue-600'} font-semibold border-b-2`
+                      : `${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'}`
                   } transition-colors duration-200`}
                 >
                   Enrolled
@@ -131,7 +134,7 @@ const Navbar = () => {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className={`p-2 rounded-lg ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
             {theme === 'light' ? (
@@ -152,26 +155,36 @@ const Navbar = () => {
               >
                 <div className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary ring-offset-2">
                   <img 
-                    src={user.photoURL || `https://via.placeholder.com/36x36/3B82F6/FFFFFF?text=${user.displayName?.charAt(0) || 'U'}`} 
-                    alt={user.displayName}
+                    src={user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email || 'User')}&background=6366f1&color=fff&size=36`} 
+                    alt={user.displayName || 'User'}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
                   />
+                  <div 
+                    className="w-full h-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-sm"
+                    style={{ display: 'none' }}
+                  >
+                    {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
                 </div>
               </div>
-              <span className="text-sm font-medium">{user.displayName}</span>
+              <span className={`text-sm font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>{user.displayName}</span>
               
               {profileDropdownOpen && (
-                <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg border border-gray-200 py-2 w-48 z-50">
+                <div className={`absolute top-12 right-0 ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'} shadow-lg rounded-lg border py-2 w-48 z-50`}>
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                    className={`block px-4 py-2 ${isDark ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'} transition-colors`}
                     onClick={() => setProfileDropdownOpen(false)}
                   >
                     My Profile
                   </Link>
                   <Link
                     to="/dashboard"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                    className={`block px-4 py-2 ${isDark ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'} transition-colors`}
                     onClick={() => setProfileDropdownOpen(false)}
                   >
                     Dashboard
@@ -179,7 +192,7 @@ const Navbar = () => {
                   <hr className="my-1" />
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                    className={`block w-full text-left px-4 py-2 text-red-600 ${isDark ? 'hover:bg-red-900/20' : 'hover:bg-red-50'} transition-colors`}
                   >
                     Logout
                   </button>
@@ -207,7 +220,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+          className={`lg:hidden p-2 rounded-md ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
         >
           <svg
             className="w-6 h-6"
@@ -226,7 +239,7 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="lg:hidden bg-base-100 border-t shadow-md">
+        <div className={`lg:hidden ${isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border-t shadow-md`}>
           <ul className="flex flex-col space-y-2 py-3 px-4">
             {/* Mobile Theme Toggle */}
             <li>
