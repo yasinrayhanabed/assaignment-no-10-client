@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo, useCallback, useDeferredValue, useTransition } from 'react';
+import { useState, useEffect, useMemo, useDeferredValue, useTransition } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Courses = () => {
+  const { isDark } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeSearchTerm, setActiveSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -20,11 +22,9 @@ const Courses = () => {
         setActiveSearchTerm(deferredSearchTerm);
       });
     }, 300);
-    
     return () => clearTimeout(timeoutId);
   }, [deferredSearchTerm]);
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -84,9 +84,7 @@ const Courses = () => {
       if (selectedCategory) params.append('category', selectedCategory);
 
       const response = await fetch(`http://localhost:5000/courses?${params}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch courses');
-      }
+      if (!response.ok) throw new Error('Failed to fetch courses');
       return response.json();
     },
     onError: (error) => {
@@ -95,7 +93,6 @@ const Courses = () => {
     }
   });
 
-  // Combine popular courses with API courses
   const courses = useMemo(() => {
     return [...popularCourses, ...apiCourses].filter(course => {
       const matchesSearch = !activeSearchTerm || course.title.toLowerCase().includes(activeSearchTerm.toLowerCase());
@@ -115,8 +112,7 @@ const Courses = () => {
         } else {
           setCategories([...new Set(popularCourses.map(c => c.category))]);
         }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
+      } catch {
         setCategories([...new Set(popularCourses.map(c => c.category))]);
       }
     };
@@ -125,7 +121,7 @@ const Courses = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-[#F8FAFC] min-h-screen pt-20 flex justify-center items-center">
+      <div className={`${isDark ? 'bg-gray-900' : 'bg-[#F8FAFC]'} min-h-screen pt-20 flex justify-center items-center transition-colors duration-300`}>
         <LoadingSpinner size="text-6xl" />
       </div>
     );
@@ -133,9 +129,9 @@ const Courses = () => {
 
   if (error) {
     return (
-      <div className="bg-[#F8FAFC] min-h-screen pt-20">
+      <div className={`${isDark ? 'bg-gray-900' : 'bg-[#F8FAFC]'} min-h-screen pt-20 transition-colors duration-300`}>
         <div className="container mx-auto px-4 py-8">
-          <div className="alert alert-error bg-[#EF4444] text-white shadow-lg rounded-lg">
+          <div className={`alert alert-error shadow-lg rounded-lg ${isDark ? 'bg-red-700 text-white' : 'bg-[#EF4444] text-white'}`}>
             <span>Failed to load courses. Please try again later.</span>
           </div>
         </div>
@@ -144,26 +140,28 @@ const Courses = () => {
   }
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pt-20">
+    <div className={`${isDark ? 'bg-gray-900 text-gray-100' : 'bg-[#F8FAFC] text-gray-900'} min-h-screen pt-20 transition-colors duration-300`}>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 text-center text-[#1F2937] tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 text-center tracking-tight">
           All Courses
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filter Panel */}
           <div className="lg:w-1/4">
-            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-bold mb-6 text-[#1F2937] border-b pb-2">Filter Courses</h3>
+            <div className={`p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+              <h3 className={`text-lg font-bold mb-6 border-b pb-2 ${isDark ? 'text-gray-100 border-gray-600' : 'text-[#1F2937] border-gray-200'}`}>Filter Courses</h3>
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>Search</label>
                   <form onSubmit={handleSearchSubmit}>
                     <div className="relative">
                       <input
                         type="text"
                         placeholder="Search courses... (Live search)"
-                        className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        className={`w-full px-4 py-3 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all border ${
+                          isDark ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
+                        }`}
                         value={searchTerm}
                         onChange={handleSearchChange}
                       />
@@ -180,16 +178,18 @@ const Courses = () => {
                         </div>
                       )}
                     </div>
+                    <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                      {isPending ? 'Updating results...' : 'Live search with non-blocking updates'}
+                    </p>
                   </form>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {isPending ? 'Updating results...' : 'Live search with non-blocking updates'}
-                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>Category</label>
                   <select
-                    className="select select-bordered w-full rounded-lg border-gray-500 p-2 focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all"
+                    className={`w-full rounded-lg p-2 transition-all border focus:ring-2 focus:ring-gray-400 focus:border-transparent ${
+                      isDark ? 'bg-gray-700 border-gray-600 text-gray-100' : 'border-gray-500 text-gray-900 bg-white'
+                    }`}
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                   >
@@ -206,19 +206,21 @@ const Courses = () => {
           {/* Courses Grid */}
           <div className="lg:w-3/4">
             {courses.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-xl shadow-md">
-                <h3 className="text-xl md:text-2xl font-semibold mb-2 text-[#1F2937]">No courses found</h3>
-                <p className="text-gray-500">Try adjusting your search or filter criteria.</p>
+              <div className={`text-center py-16 rounded-xl shadow-md ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+                <h3 className="text-xl md:text-2xl font-semibold mb-2">No courses found</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Try adjusting your search or filter criteria.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                 {courses.map((course, index) => (
                   <div
                     key={course._id}
-                    className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 animate-fade-up border border-gray-100"
+                    className={`group relative rounded-2xl shadow-lg transition-all duration-500 overflow-hidden transform hover:-translate-y-2 animate-fade-up border ${
+                      isDark ? 'bg-gray-800 border-gray-700 hover:shadow-2xl' : 'bg-white border-gray-100 hover:shadow-2xl'
+                    }`}
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    {/* Course Image with Overlay */}
+                    {/* Course Image */}
                     <div className="relative overflow-hidden">
                       <img
                         src={course.image || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop'}
@@ -226,15 +228,11 @@ const Courses = () => {
                         className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      
-                      {/* Price Badge */}
                       <div className="absolute top-4 right-4">
                         <div className="bg-[#F59E0B] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                           ${course.price}
                         </div>
                       </div>
-                      
-                      {/* Category Badge */}
                       <div className="absolute top-4 left-4">
                         <div className="bg-[#10B981] text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg">
                           {course.category}
@@ -244,31 +242,25 @@ const Courses = () => {
 
                     {/* Card Content */}
                     <div className="p-6">
-                      {/* Course Title */}
-                      <h2 className="text-xl font-bold text-[#1F2937] mb-3 line-clamp-2 group-hover:text-[#3B82F6] transition-colors duration-300">
+                      <h2 className={`text-xl font-bold mb-3 line-clamp-2 transition-colors duration-300 ${isDark ? 'text-gray-100 group-hover:text-blue-400' : 'text-[#1F2937] group-hover:text-[#3B82F6]'}`}>
                         {course.title}
                       </h2>
-                      
-                      {/* Course Description */}
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-                        {course.description || 'Enhance your skills with this comprehensive course designed for learners of all levels.'}
+                      <p className={`text-sm mb-4 line-clamp-3 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                        {course.description || 'Enhance your skills with this comprehensive course.'}
                       </p>
-                      
-                      {/* Instructor Info */}
                       <div className="flex items-center mb-4">
-                        <div className="w-8 h-8 bg-gradient-to-r from-[#3B82F6] to-[#10B981] rounded-full flex items-center justify-center text-white text-xs font-bold mr-3">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold mr-3 bg-gradient-to-r from-[#3B82F6] to-[#10B981]">
                           {course.instructor?.name?.charAt(0) || 'I'}
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-700">
+                          <p className={`${isDark ? 'text-gray-100' : 'text-gray-700'} text-sm font-medium`}>
                             {course.instructor?.name || 'Expert Instructor'}
                           </p>
-                          <p className="text-xs text-gray-500">Course Instructor</p>
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Course Instructor</p>
                         </div>
                       </div>
-                      
-                      {/* Course Stats */}
-                      <div className="flex items-center justify-between mb-6 text-sm text-gray-500">
+
+                      <div className={`flex items-center justify-between mb-6 text-sm ${isDark ? 'text-gray-300' : 'text-gray-500'}`}>
                         <div className="flex items-center">
                           <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
@@ -288,23 +280,14 @@ const Courses = () => {
                           {course.rating || (4.0 + Math.random()).toFixed(1)}
                         </div>
                       </div>
-                      
-                      {/* Action Button */}
+
                       <Link
                         to={`/courses/${course._id}`}
-                        className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg group-hover:shadow-xl"
+                        className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                       >
-                        <span className="flex items-center justify-center">
-                          View Details
-                          <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
+                        View Details
                       </Link>
                     </div>
-                    
-                    {/* Hover Effect Border */}
-                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#3B82F6] rounded-2xl transition-all duration-300 pointer-events-none"></div>
                   </div>
                 ))}
               </div>
