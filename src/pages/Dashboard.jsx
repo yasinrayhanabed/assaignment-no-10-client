@@ -1,29 +1,33 @@
 import { useAuth } from '../contexts/AuthContext';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const { isDark } = useTheme();
   usePageTitle('Dashboard');
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className={`${isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'} min-h-screen py-8 transition-colors duration-300`}>
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {user?.displayName}!</p>
+          <h1 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-3xl font-bold mb-2`}>Dashboard</h1>
+          <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Welcome back, {user?.displayName}!</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* My Courses Card */}
           <Link 
             to="/my-courses" 
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-blue-500"
+            className={`p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-blue-500 ${
+              isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">My Courses</h3>
-                <p className="text-gray-600 text-sm">Manage courses you've created</p>
+                <h3 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-lg font-semibold mb-2`}>My Courses</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Manage courses you've created</p>
               </div>
               <div className="text-blue-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,12 +40,14 @@ const Dashboard = () => {
           {/* Enrolled Courses Card */}
           <Link 
             to="/my-enrolled-courses" 
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"
+            className={`p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500 ${
+              isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Enrolled Courses</h3>
-                <p className="text-gray-600 text-sm">Continue your learning journey</p>
+                <h3 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-lg font-semibold mb-2`}>Enrolled Courses</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Continue your learning journey</p>
               </div>
               <div className="text-green-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,12 +60,14 @@ const Dashboard = () => {
           {/* Add Course Card */}
           <Link 
             to="/add-course" 
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-purple-500"
+            className={`p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-purple-500 ${
+              isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Add New Course</h3>
-                <p className="text-gray-600 text-sm">Create and share knowledge</p>
+                <h3 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-lg font-semibold mb-2`}>Add New Course</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Create and share knowledge</p>
               </div>
               <div className="text-purple-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,12 +80,14 @@ const Dashboard = () => {
           {/* Profile Card */}
           <Link 
             to="/profile" 
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-orange-500"
+            className={`p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-orange-500 ${
+              isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">My Profile</h3>
-                <p className="text-gray-600 text-sm">Update your information</p>
+                <h3 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-lg font-semibold mb-2`}>My Profile</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Update your information</p>
               </div>
               <div className="text-orange-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,12 +100,14 @@ const Dashboard = () => {
           {/* All Courses Card */}
           <Link 
             to="/courses" 
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-red-500"
+            className={`p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-red-500 ${
+              isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
           >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Browse Courses</h3>
-                <p className="text-gray-600 text-sm">Explore available courses</p>
+                <h3 className={`${isDark ? 'text-gray-100' : 'text-gray-800'} text-lg font-semibold mb-2`}>Browse Courses</h3>
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Explore available courses</p>
               </div>
               <div className="text-red-500">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
