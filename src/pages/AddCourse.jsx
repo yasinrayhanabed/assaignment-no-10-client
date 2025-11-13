@@ -3,10 +3,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
+import { useTheme } from '../contexts/ThemeContext';
 
 const AddCourse = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { isDark } = useTheme();
+
   const [formData, setFormData] = useState({
     title: '',
     image: '',
@@ -75,37 +78,45 @@ const AddCourse = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#EFF6FF] via-[#E0F2FE] to-[#DBEAFE] min-h-screen flex items-center justify-center pt-20 pb-10">
+    <div className={`min-h-screen flex items-center justify-center pt-20 pb-10 transition-colors duration-300 ${
+      isDark ? 'bg-gray-950 text-gray-100' : 'bg-gradient-to-br from-[#EFF6FF] via-[#E0F2FE] to-[#DBEAFE] text-gray-900'
+    }`}>
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-2xl p-8">
-          <h1 className="text-4xl font-extrabold text-center text-[#1E3A8A] mb-8">
+        <div className={`max-w-3xl mx-auto rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 ${
+          isDark ? 'bg-gray-900 border border-gray-700' : 'bg-white'
+        }`}>
+          <h1 className={`text-4xl font-extrabold text-center mb-8 ${isDark ? 'text-blue-400' : 'text-[#1E3A8A]'}`}>
             Add a New Course
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Course Title</label>
+              <label className="block font-medium mb-2">Course Title</label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border ${
+                  isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                }`}
                 required
               />
             </div>
 
             {/* Image URL */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Image URL</label>
+              <label className="block font-medium mb-2">Image URL</label>
               <input
                 type="url"
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border ${
+                  isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                }`}
                 required
               />
             </div>
@@ -113,26 +124,30 @@ const AddCourse = () => {
             {/* Price & Duration */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-gray-700 font-medium mb-2">Price ($)</label>
+                <label className="block font-medium mb-2">Price ($)</label>
                 <input
                   type="number"
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border ${
+                    isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                  }`}
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-2">Duration (weeks)</label>
+                <label className="block font-medium mb-2">Duration (weeks)</label>
                 <input
                   type="number"
                   name="duration"
                   value={formData.duration}
                   onChange={handleChange}
                   min="1"
-                  className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border ${
+                    isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                  }`}
                   required
                 />
               </div>
@@ -140,12 +155,14 @@ const AddCourse = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Category</label>
+              <label className="block font-medium mb-2">Category</label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border ${
+                  isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                }`}
                 required
               >
                 <option value="">Select a Category</option>
@@ -159,19 +176,23 @@ const AddCourse = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Description</label>
+              <label className="block font-medium mb-2">Description</label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 rows="4"
-                className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
+                className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 border resize-none ${
+                  isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'border-gray-400 bg-white text-gray-900'
+                }`}
                 required
               ></textarea>
             </div>
 
             {/* Featured Checkbox */}
-            <div className="flex items-center justify-between bg-blue-50 p-4 rounded-xl border border-blue-200">
+            <div className={`flex items-center justify-between p-4 rounded-xl border ${
+              isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'bg-blue-50 border-blue-200 text-gray-900'
+            }`}>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -180,13 +201,15 @@ const AddCourse = () => {
                   onChange={handleChange}
                   className="checkbox checkbox-primary"
                 />
-                <span className="text-gray-700 font-medium">Mark as Featured Course</span>
+                <span className="font-medium">Mark as Featured Course</span>
               </label>
             </div>
 
             {/* Instructor Info */}
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
-              <h3 className="font-semibold text-[#1E3A8A] mb-4">Instructor Information</h3>
+            <div className={`p-6 rounded-xl border ${
+              isDark ? 'bg-gray-800 border-gray-700 text-gray-100' : 'bg-blue-50 border-blue-200 text-gray-900'
+            }`}>
+              <h3 className={`font-semibold mb-4 ${isDark ? 'text-blue-400' : 'text-[#1E3A8A]'}`}>Instructor Information</h3>
               <div className="flex items-center gap-4">
                 <img
                   src={user?.photoURL || 'https://via.placeholder.com/60'}
@@ -194,8 +217,8 @@ const AddCourse = () => {
                   className="w-14 h-14 rounded-full border-2 border-blue-300"
                 />
                 <div>
-                  <p className="font-semibold text-gray-800">{user?.displayName}</p>
-                  <p className="text-sm text-gray-600">{user?.email}</p>
+                  <p className="font-semibold">{user?.displayName}</p>
+                  <p className="text-sm">{user?.email}</p>
                 </div>
               </div>
             </div>
